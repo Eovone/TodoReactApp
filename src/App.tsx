@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import CreateTodo from './Components/CreateTodo';
+import TodoList from './Components/TodoList'
 
 function App() {
   return (
     <div className="App">
-      <CreateTodo />
+      <TodoList />
     </div>
   );
 }
