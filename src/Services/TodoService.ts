@@ -1,10 +1,11 @@
 import axios from 'axios';
-const baseUrl = `${process.env.REACT_APP_API_URL}/api/Todos`
+const baseUrl = `${process.env.REACT_APP_API_URL}/api/Todo`
 
 
-export const postTodo = (todo: { title: string; completed: boolean;}) => {   
+export const postTodo = (todo: { title: string; completed: boolean; description: string;}) => {   
     return axios.post(baseUrl, {
         title: todo.title,
-        completed: todo.completed
+        completed: todo.completed,
+        description: todo.description
     }).then(response => response.data);
 }
