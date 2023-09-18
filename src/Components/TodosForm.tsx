@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Input, Row, Switch } from 'antd';
 import {PlusCircleFilled} from '@ant-design/icons';
 import React, { FC, } from 'react';
 import { Todo } from '../Models/Todo';
@@ -11,8 +11,8 @@ const TodosForm: FC<TodosFormsProps> = (props) => {
 
     const onFinish = () => {
         const todo: Todo = {
-            title: form.getFieldValue('title'),
-            completed: false,
+            title: form.getFieldValue('title'),            
+            completed: form.getFieldValue('completed'),
             description: form.getFieldValue('description'),
         };
         onFormSubmit(todo);
@@ -36,9 +36,15 @@ const TodosForm: FC<TodosFormsProps> = (props) => {
                         </Col>
 
                         <Col xs={24} sm={24} md={17} lg={19} xl={20}>
-                        <Form.Item name="description"
+                            <Form.Item name="description"
                                         rules={[{required: true, message: 'Please Enter what you need to do'}]}>
                                 <Input placeholder='What do you need to do?'/>
+                            </Form.Item>
+                            <p>Is this Todo already done?</p>
+                            <Form.Item name="completed" 
+                                       valuePropName="checked" 
+                                       initialValue={false}>
+                                <Switch />
                             </Form.Item>
                         </Col>
 
