@@ -14,7 +14,7 @@ const TodoList: FC = () => {
         const response = await getTodos(0);
         setAllTodos(response);
     } 
-    
+
     const updatePage = async () => await fetchTodos();   
 
     const handleFormSubmit = async (todo : Todo) => {
@@ -28,21 +28,23 @@ const TodoList: FC = () => {
     }, [])
    
 return(
-    <Layout className='layout'>
-        <Content className='p-4'>
-            <div className='todolist'>
-                <Row className='mb-2'>
-                    <Col span={15} offset={5}>                        
-                        <TodosForm onFormSubmit={handleFormSubmit} />                   
-                    </Col>                    
-                </Row>
-                <Row className='flex justify-center'>
-                    <TodoItems listOfTodos={allTodos} />
-                </Row>
-            </div>
-        </Content>
-    </Layout>
-)
+     <Layout className='layout bg-gray-700'>
+            <Content className='p-4'>
+                <div className='todolist'>
+                    <Row className='mb-4'>
+                        <Col span={24} className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
+                            <TodosForm onFormSubmit={handleFormSubmit} />
+                        </Col>
+                    </Row>
+                    <Row className='mb-4'>
+                        <Col span={24} className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
+                            <TodoItems listOfTodos={allTodos} />
+                        </Col>
+                    </Row>
+                </div>
+            </Content>
+        </Layout>
+    );
 }
 
 export default TodoList;
