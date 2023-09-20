@@ -9,3 +9,8 @@ export const postTodo = (todo: { title: string; completed: boolean; description:
         description: todo.description
     }).then(response => response.data);
 }
+
+export const getTodos = (limit: number) => {
+    return axios.get(`${baseUrl}/GetAllTodos?limit=${limit}`)
+      .then(response => response.data);
+}
