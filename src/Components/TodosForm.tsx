@@ -1,5 +1,4 @@
 import { Button, Col, Form, Input, Row, Switch } from 'antd';
-import {PlusCircleFilled} from '@ant-design/icons';
 import React, { FC, } from 'react';
 import { Todo } from '../Models/Todo';
 import { TodosFormsProps } from '../Models/TodosFormsProps';
@@ -43,14 +42,15 @@ const TodosForm: FC<TodosFormsProps> = (props) => {
                             <p>Is this Todo already done?</p>
                             <Form.Item name="completed" 
                                        valuePropName="checked" 
-                                       initialValue={false}>
-                                <Switch />
+                                       initialValue={false}
+                                       >
+                                <Switch className=''/>
                             </Form.Item>
                         </Col>
 
                         <Col xs={24} sm={24} md={17} lg={19} xl={20}>
-                            <Button type='primary' htmlType='submit' block>
-                                <PlusCircleFilled/> Add Todo
+                            <Button className='bg-gray-600' type='primary' htmlType='submit' block>
+                                Add Todo
                             </Button>
                         </Col>
 

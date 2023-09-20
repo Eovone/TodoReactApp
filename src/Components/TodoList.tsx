@@ -1,51 +1,43 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import {Col, Layout, message, Row, Tabs } from 'antd';
+import React, { FC, useEffect, useState } from 'react';
+import {Col, Layout, message, Row } from 'antd';
 import TodosForm from './TodosForm';
-import { postTodo } from '../Services/TodoService';
+import { getTodos, postTodo } from '../Services/TodoService';
 import { Todo } from '../Models/Todo';
+import TodoItems from './TodoItems';
 
-const { TabPane } = Tabs;
 const { Content } = Layout;
 
-const TodoList: FC = () => {
-    const [refreshing, setRefreshing] = useState(false);
+const TodoList: FC = () => {  
+    const [allTodos, setAllTodos] = useState<Todo[]>([]);   
+
+    const fetchTodos = async () => {    
+        const response = await getTodos(0);
+        setAllTodos(response);
+    } 
+    
+    const updatePage = async () => await fetchTodos();   
 
     const handleFormSubmit = async (todo : Todo) => {
         await postTodo(todo);
-        onRefresh();
+        updatePage();
         message.success('Your Todo has been added!');
-    }
+    }    
 
-    const onRefresh = useCallback( async () => {
-        setRefreshing(true);
-
-        setRefreshing(false);
-    }, [refreshing]);
-
-    useEffect(() => {
-
-    }, [onRefresh])
-
+    useEffect(() => {          
+        fetchTodos();
+    }, [])
+   
 return(
     <Layout className='layout'>
         <Content className='p-4'>
             <div className='todolist'>
-                <Row>
+                <Row className='mb-2'>
                     <Col span={15} offset={5}>                        
-                            <TodosForm onFormSubmit={handleFormSubmit} />
-                        <br/>
-                        <Tabs defaultActiveKey='all'>
-                            <TabPane tab="All" key="all">
-
-                            </TabPane>  
-                            <TabPane tab="In Progress" key="active">
-
-                            </TabPane>
-                            <TabPane tab="Completed" key="complete">
-
-                            </TabPane>                        
-                        </Tabs>
-                    </Col>
+                        <TodosForm onFormSubmit={handleFormSubmit} />                   
+                    </Col>                    
+                </Row>
+                <Row className='flex justify-center'>
+                    <TodoItems listOfTodos={allTodos} />
                 </Row>
             </div>
         </Content>
