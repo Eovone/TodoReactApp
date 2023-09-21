@@ -21,7 +21,7 @@ return (
           {todo.completed ? (
             <div></div>
           ) : (
-            <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-white">
+            <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-gray-500">
               <TodoItem todoItem={todo} />
             </div>
           )}
@@ -34,7 +34,7 @@ return (
       {props.listOfTodos.map((todo, index) => (
         <div key={index}>
           {todo.completed ? (
-            <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-white">
+            <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-gray-500">
               <TodoItem todoItem={todo} />
             </div>
           ) : (
