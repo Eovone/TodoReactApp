@@ -4,29 +4,30 @@ import TodosForm from './TodosForm';
 import { getTodos, postTodo } from '../Services/TodoService';
 import { Todo } from '../Models/Todo';
 import TodoItems from './TodoItems';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 const { Content } = Layout;
 
 const TodoList: FC = () => {  
-    const [allTodos, setAllTodos] = useState<Todo[]>([]);   
+    const { data: allTodos, isLoading, isError, refetch } = useQuery(['todos'], () => getTodos());
+    
+    const addTodo = useMutation((todo: Todo) => postTodo(todo), {
+        onSuccess: () => {
+          refetch();
+          message.success('Your Todo has been added!');
+        },
+      });
 
-    const fetchTodos = async () => {    
-        const response = await getTodos(0);
-        setAllTodos(response);
-    } 
+    const handleFormSubmit = async (todo: Todo) => {
+        await addTodo.mutateAsync(todo);
+    };
 
-    const updatePage = async () => await fetchTodos();   
-
-    const handleFormSubmit = async (todo : Todo) => {
-        await postTodo(todo);
-        updatePage();
-        message.success('Your Todo has been added!');
-    }    
-
-    useEffect(() => {          
-        fetchTodos();
-    }, [])
-   
+if (isLoading){
+    return <div>Loading...</div>
+}
+if (isError){
+    return <div>Error...</div>
+}
 return(
      <Layout className='layout bg-gray-700'>
             <Content className='p-4'>
