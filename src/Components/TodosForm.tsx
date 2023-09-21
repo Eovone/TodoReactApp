@@ -30,7 +30,7 @@ const TodosForm: FC<TodosFormsProps> = (props) => {
                         <Form.Item name="title"
                                    rules={[{ required: true, message: 'Please enter a Title' }]}>
                         <Input placeholder="Title of your Todo" 
-                               className="text-white" />
+                               className="text-gray-500" />
                         </Form.Item>
                     </Col>
   
@@ -38,7 +38,7 @@ const TodosForm: FC<TodosFormsProps> = (props) => {
                         <Form.Item name="description"
                                    rules={[{ required: true, message: 'Please Enter what you need to do' }]}>
                         <Input placeholder="What do you need to do?"
-                               className="text-white" />
+                               className="text-gray-500" />
                         </Form.Item>
                         <p className="text-white">Is this Todo already done?</p>
                         <Form.Item name="completed"
