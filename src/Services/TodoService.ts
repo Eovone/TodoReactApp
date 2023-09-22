@@ -14,3 +14,8 @@ export const getTodos = () => {
     return axios.get(baseUrl)
       .then(response => response.data);
 }
+
+export const deleteTodo = (todoId: number) => {
+    return axios.delete(`${baseUrl}/${todoId}`)
+        .then(response => response.status)
+}
