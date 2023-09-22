@@ -4,7 +4,6 @@ import { Todo } from '../Models/Todo';
 import { TodosFormsProps } from '../Models/TodosFormsProps';
 
 const TodosForm: FC<TodosFormsProps> = (props) => {
-
     const [form] = Form.useForm();
     const { onFormSubmit } = props;
 
@@ -13,10 +12,10 @@ const TodosForm: FC<TodosFormsProps> = (props) => {
             title: form.getFieldValue('title'),            
             completed: form.getFieldValue('completed'),
             description: form.getFieldValue('description'),
-        };
+        };             
         onFormSubmit(todo);
-        form.resetFields();
-    }
+        form.resetFields();        
+    }    
 
     return(
         <div className="bg-gray-500 p-4 rounded shadow-lg text-white">
