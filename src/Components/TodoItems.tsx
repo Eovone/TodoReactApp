@@ -5,6 +5,7 @@ import TodoItem from './TodoItem';
 interface TodoItemsProps {
   listOfTodos: Todo[];
   handleDelete: (todo: Todo) => Promise<void>;
+  handleUpdate: (todo: Todo) => Promise<void>;
 }
 
 const TodoItems: FC<TodoItemsProps> = (props) => {
@@ -23,7 +24,9 @@ return (
             <div></div>
           ) : (
             <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-gray-500">
-              <TodoItem todoItem={todo} handleDelete={props.handleDelete}/>
+              <TodoItem todoItem={todo} 
+                        handleDelete={props.handleDelete}
+                        handleUpdate={props.handleUpdate}/>
             </div>
           )}
         </div>
@@ -36,7 +39,9 @@ return (
         <div key={index}>
           {todo.completed ? (
             <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-gray-500">
-              <TodoItem todoItem={todo} handleDelete={props.handleDelete}/>
+              <TodoItem todoItem={todo} 
+                        handleDelete={props.handleDelete}
+                        handleUpdate={props.handleUpdate}/>
             </div>
           ) : (
             <div></div>
