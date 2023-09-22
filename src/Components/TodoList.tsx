@@ -34,11 +34,24 @@ const TodoList: FC = () => {
         await addTodo.mutateAsync(todo);
     };
 
-if (isLoading){
-    return <div>Loading...</div>
+if (isLoading){    
+    return (
+        <Layout className="layout bg-gray-700 flex flex-col justify-center items-center h-screen">
+            <p className="text-white text-5xl mb-4">Loading...</p> {/* Text element */}
+            <div className="spinner">
+                <div className="spinner-blade"></div>
+                <div className="spinner-blade"></div>
+                <div className="spinner-blade"></div>
+            </div>
+        </Layout>
+    )
 }
 if (isError){
-    return <div>Error...</div>
+    return (
+        <Layout className='layout bg-gray-700  flex flex-col justify-center items-center h-screen'>
+            <div className="text-white text-5xl mb-4">Error...</div>
+        </Layout>
+    )
 }
 return(
      <Layout className='layout bg-gray-700'>
