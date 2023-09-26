@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Todo } from '../Models/Todo';
 import TodoItem from './TodoItem';
 
@@ -15,40 +15,18 @@ if(props.listOfTodos.length === 0){
 }
 
 return (
-  <div className="grid grid-cols-2 gap-4">
+  <div className="w-full">
     <div>
-      <h1 className="text-3xl text-white">Not Done</h1>
       {props.listOfTodos.map((todo, index) => (
         <div key={index}>
-          {todo.completed ? (
-            <div></div>
-          ) : (
             <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-gray-500">
               <TodoItem todoItem={todo} 
                         handleDelete={props.handleDelete}
                         handleUpdate={props.handleUpdate}/>
             </div>
-          )}
         </div>
       ))}
-    </div>
-
-    <div>
-      <h1 className="text-3xl text-white">Done</h1>
-      {props.listOfTodos.map((todo, index) => (
-        <div key={index}>
-          {todo.completed ? (
-            <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-gray-500">
-              <TodoItem todoItem={todo} 
-                        handleDelete={props.handleDelete}
-                        handleUpdate={props.handleUpdate}/>
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </div>
-      ))}
-    </div>
+    </div>   
   </div>
 );
 };

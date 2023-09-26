@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { Todo } from '../Models/Todo';
 import { DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
 
@@ -13,7 +13,6 @@ const TodoItem: FC<TodoItemProps> = (props) => {
   const [editedTitle, setEditedTitle] = useState<string>(props.todoItem.title);
   const [editedDescription, setEditedDescription] = useState<string>(props.todoItem.description);
   const [editedCompleted, setEditedCompleted] = useState<boolean>(props.todoItem.completed);
-
 
   const handleDeleteClick = () => {
     setIsEditing(false);
