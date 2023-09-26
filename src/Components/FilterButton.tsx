@@ -13,8 +13,8 @@ const FilterButton: FC<FilterButtonProps> = (props) => {
         props.setFilterState(props.filterState);
     };
 
-    const isActiveCss = "w-1/4 m-2 rounded-md overflow-hidden dark:bg-gray-500 border-2 border-yellow-400";
-    const isNotActiveCss = "w-1/4 m-2 rounded-md overflow-hidden dark:bg-gray-500";
+    const isActiveCss = "w-1/4 md:w-1/5 lg:w-2/12 m-2 rounded-md overflow-hidden dark:bg-gray-500 border-2 border-yellow-400";
+    const isNotActiveCss = "w-1/4 md:w-1/5 lg:w-2/12 m-2 rounded-md overflow-hidden dark:bg-gray-500";
          
     return (
         <div className={props.isActive ? isActiveCss : isNotActiveCss}>
