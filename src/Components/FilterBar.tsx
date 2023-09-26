@@ -8,7 +8,7 @@ interface FilterBarProps {
 
 const FilterBar: FC<FilterBarProps> = (props) => {
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center w-full'>
             <FilterButton buttonName='All'
                           setFilterState={props.setFilterState}
                           filterState='all' 

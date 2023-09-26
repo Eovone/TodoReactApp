@@ -77,25 +77,22 @@ return(
                     <FilterBar filterState={filterString} 
                                setFilterState={setFilterString}/>
                    
-                    <Row className='mb-4'>
-                        <Col className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
-                            {filterString === 'all' ? (
-                                <TodoItems listOfTodos={allTodos} 
-                                           handleDelete={handleDeleteTodo}
-                                           handleUpdate={handleUpdateTodo}/>
-                            ) : null }
-                            {filterString === 'done' ? (
-                                <TodoItems listOfTodos={allTodos.filter((todo : Todo) => todo.completed)} 
-                                           handleDelete={handleDeleteTodo}
-                                           handleUpdate={handleUpdateTodo}/>
-                            ) : null }
-                            {filterString === 'notdone' ? (
-                                <TodoItems listOfTodos={allTodos.filter((todo : Todo) => !todo.completed)} 
-                                           handleDelete={handleDeleteTodo}
-                                           handleUpdate={handleUpdateTodo}/>
-                            ) : null }
-                            
-                        </Col>
+                    <Row className='mb-4 flex justify-center'>
+                        {filterString === 'all' ? (
+                            <TodoItems listOfTodos={allTodos} 
+                                    handleDelete={handleDeleteTodo}
+                                    handleUpdate={handleUpdateTodo}/>
+                        ) : null }
+                        {filterString === 'done' ? (
+                            <TodoItems listOfTodos={allTodos.filter((todo : Todo) => todo.completed)} 
+                                    handleDelete={handleDeleteTodo}
+                                    handleUpdate={handleUpdateTodo}/>
+                        ) : null }
+                        {filterString === 'notdone' ? (
+                            <TodoItems listOfTodos={allTodos.filter((todo : Todo) => !todo.completed)} 
+                                    handleDelete={handleDeleteTodo}
+                                    handleUpdate={handleUpdateTodo}/>
+                        ) : null }                            
                     </Row>
                 </div>
             </Content>

@@ -35,33 +35,37 @@ const TodoItem: FC<TodoItemProps> = (props) => {
   }
   
     return (
-      <div className="bg-white shadow-md rounded-md p-4 m-4 relative">
+      <div className="h-full bg-white shadow-md rounded-md p-4 relative">
+        <div className='flex justify-between'>
+          <DeleteOutlined onClick={handleDeleteClick}
+                          className="text-red-500 cursor-pointer text-3xl"
+          />
+          {isEditing ? (
+            <SaveOutlined className='text-green-500 cursor-pointer text-3xl'
+                          onClick={handleSaveClick}/>
+          ) : (
+            <EditOutlined className='text-green-500 cursor-pointer text-3xl'
+                          onClick={handleEditClick}/>
+          )}
+        </div>
+         
         {isEditing ? (
           <input type='text'
-                 className='text-2xl font-semibold text-center outline-none border-b-2 border-gray-300'
+                 className='text-black text-2xl font-semibold text-center outline-none border-b-2 border-gray-300'
                  placeholder='Enter Title'
                  value={editedTitle}
                  onChange={(e) => setEditedTitle(e.target.value)}/>
         ) : (
-          <h1 className="text-2xl font-semibold text-center">{editedTitle}</h1>
+          <h1 className="text-black text-2xl font-semibold text-center truncate">{editedTitle}</h1>
         )}
-          <DeleteOutlined onClick={handleDeleteClick}
-                          className="text-red-500 absolute top-2 right-2 cursor-pointer text-3xl"
-          />
-          {isEditing ? (
-            <SaveOutlined className='text-green-500 absolute top-2 left-2 cursor-pointer text-3xl'
-                          onClick={handleSaveClick}/>
-          ) : (
-            <EditOutlined className='text-green-500 absolute top-2 left-2 cursor-pointer text-3xl'
-                          onClick={handleEditClick}/>
-          )}
+         
           {isEditing ? (
             <textarea className='text-sm text-gray-700 mt-4 p-2 w-full rounded-md resize-none outline-none border border-gray-300'
                       placeholder='Enter Description'
                       value={editedDescription}
                       onChange={(e) => setEditedDescription(e.target.value)}/>
           ) : (
-            <p className="text-sm text-gray-700 text-center">{editedDescription}</p>
+            <p className="text-sm text-gray-700 text-center truncate">{editedDescription}</p>
           )}
           {isEditing && (
             <div className="mt-4 flex justify-center">

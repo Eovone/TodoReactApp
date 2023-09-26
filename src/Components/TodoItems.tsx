@@ -11,15 +11,15 @@ interface TodoItemsProps {
 const TodoItems: FC<TodoItemsProps> = (props) => {
 
 if(props.listOfTodos.length === 0){
-  return(<div className="text-white">No Todo's here!</div>)
+  return(<div className="text-white text-xl mt-5">No Todo's here!</div>)
 }
 
 return (
-  <div className="w-full">
-    <div>
+  <div className="w-3/5 sm:w-1/2 md:w-3/8 lg:w-1/4">
+    <div className='w-full'>
       {props.listOfTodos.map((todo, index) => (
-        <div key={index}>
-            <div className="bg-gray-800 rounded shadow-md p-4 m-4 text-gray-500">
+        <div className='w-full'  key={index}>
+            <div className="h-60 bg-gray-800 rounded shadow-md p-2 m-4 text-gray-500">
               <TodoItem todoItem={todo} 
                         handleDelete={props.handleDelete}
                         handleUpdate={props.handleUpdate}/>
