@@ -1,16 +1,18 @@
-import React, { FC } from 'react';
+import { FC, useState } from 'react';
 import {Col, Layout, message, Row } from 'antd';
 import TodosForm from './TodosForm';
 import { deleteTodo, getTodos, postTodo, updateTodo } from '../Services/TodoService';
 import { Todo } from '../Models/Todo';
 import TodoItems from './TodoItems';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import FilterBar from './FilterBar';
 
 const { Content } = Layout;
 
 const TodoList: FC = () => {  
+    const [filterString, setFilterString] = useState<string>("all");
     const { data: allTodos, isLoading, isError, refetch } = useQuery(['todos'], () => getTodos());
-    
+   
     const addTodo = useMutation((todo: Todo) => postTodo(todo), {
         onSuccess: () => {
           refetch();
@@ -67,15 +69,32 @@ return(
             <Content className='p-4'>
                 <div className='todolist'>
                     <Row className='mb-4'>
-                        <Col span={24} className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
+                        <Col className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
                             <TodosForm onFormSubmit={handleFormSubmit} />
                         </Col>
-                    </Row>
+                    </Row>  
+
+                    <FilterBar filterState={filterString} 
+                               setFilterState={setFilterString}/>
+                   
                     <Row className='mb-4'>
-                        <Col span={24} className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
-                            <TodoItems listOfTodos={allTodos} 
-                                       handleDelete={handleDeleteTodo}
-                                       handleUpdate={handleUpdateTodo}/>
+                        <Col className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
+                            {filterString === 'all' ? (
+                                <TodoItems listOfTodos={allTodos} 
+                                           handleDelete={handleDeleteTodo}
+                                           handleUpdate={handleUpdateTodo}/>
+                            ) : null }
+                            {filterString === 'done' ? (
+                                <TodoItems listOfTodos={allTodos.filter((todo : Todo) => todo.completed)} 
+                                           handleDelete={handleDeleteTodo}
+                                           handleUpdate={handleUpdateTodo}/>
+                            ) : null }
+                            {filterString === 'notdone' ? (
+                                <TodoItems listOfTodos={allTodos.filter((todo : Todo) => !todo.completed)} 
+                                           handleDelete={handleDeleteTodo}
+                                           handleUpdate={handleUpdateTodo}/>
+                            ) : null }
+                            
                         </Col>
                     </Row>
                 </div>
