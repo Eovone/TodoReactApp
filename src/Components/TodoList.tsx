@@ -17,18 +17,27 @@ const TodoList: FC = () => {
         onSuccess: () => {
           refetch();
           message.success('Your Todo has been added!');
+        },
+        onError: () => {
+            message.error('Your Todo Failed to be added!')
         }
       });    
     const removeTodo = useMutation((todoId: number) => deleteTodo(todoId),{
         onSuccess: () => {
             refetch();
             message.success('Your Todo has been removed!');
+        },
+        onError: () => {
+            message.error('Your Todo Failed to be removed!')
         }
       });
     const editTodo = useMutation((todo: Todo) => updateTodo(todo), {
         onSuccess: () => {
             refetch();
             message.success('Your Todo has been updated!');
+        },
+        onError: () => {
+            message.error('Your Todo Failed to be updated!')
         }
     });
 
@@ -40,7 +49,6 @@ const TodoList: FC = () => {
         if (todo.id == null) return;
         await removeTodo.mutateAsync(todo.id);
     }
-
     const handleFormSubmit = async (todo: Todo) => {
         await addTodo.mutateAsync(todo);
     };
