@@ -1,3 +1,4 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import './App.scss';
 import TodoList from './Components/TodoList'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -9,6 +10,7 @@ function App() {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <TodoList />
+        <ReactQueryDevtools/>
       </QueryClientProvider>
     </div>
   );

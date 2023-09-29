@@ -10,8 +10,8 @@ export const postTodo = async (todo: { title: string; completed: boolean; descri
     }).then(response => response.data);
 }
 
-export const getTodos = async () => {
-    return axios.get(baseUrl)
+export const getTodos = async (pageNumber:number, pageSize:number, filter:string) => {
+    return axios.get(`${baseUrl}?page=${pageNumber}&pageSize=${pageSize}&filter=${filter}`)
       .then(response => response.data);
 }
 

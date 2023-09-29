@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, Row, Switch } from 'antd';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Todo } from '../Models/Todo';
 
 interface TodosFormProps{
@@ -8,11 +8,12 @@ interface TodosFormProps{
 
 const TodosForm: FC<TodosFormProps> = (props) => {
     const [form] = Form.useForm();
+    const [completed, setCompleted] = useState<boolean>(false);
 
     const onFinish = () => {
         const todo: Todo = {
             title: form.getFieldValue('title'),            
-            completed: form.getFieldValue('completed'),
+            completed: completed,
             description: form.getFieldValue('description'),
         };             
         props.onFormSubmit(todo);
@@ -43,13 +44,14 @@ const TodosForm: FC<TodosFormProps> = (props) => {
                         </Form.Item>
                         <p className="text-white">Is this Todo already done?</p>
                         <Form.Item name="completed"
-                                   valuePropName="checked"
-                                   initialValue={false}>
-                                    <div className='flex justify-center items-center'>
-                                        <p className='p-1 text-red-400'>No</p>
-                                        <Switch className='p-1 bg-black'/>
-                                        <p className='p-1 text-green-400'>Yes</p>
-                                    </div>
+                                   valuePropName="checked">
+                            <div className='flex justify-center items-center'>
+                                <p className='p-1 text-red-400'>No</p>
+                                <Switch className='p-1 bg-black'
+                                        checked={completed}
+                                        onChange={(value) => setCompleted(value)}/>
+                                <p className='p-1 text-green-400'>Yes</p>
+                            </div>
                         </Form.Item>
                     </Col>
   

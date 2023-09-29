@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Todo } from '../Models/Todo';
 import { DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
 
@@ -32,7 +32,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
     }
     props.handleUpdate(editedTodo);
     setIsEditing(false);
-  }
+  }  
   
     return (
       <div className="h-full bg-white shadow-md rounded-md p-4 relative">
@@ -51,7 +51,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
          
         {isEditing ? (
           <input type='text'
-                 className='text-black text-2xl font-semibold text-center outline-none border-b-2 border-gray-300'
+                 className='w-full text-black text-2xl font-semibold text-center outline-none border-b-2 border-gray-300'
                  placeholder='Enter Title'
                  value={editedTitle}
                  onChange={(e) => setEditedTitle(e.target.value)}/>
