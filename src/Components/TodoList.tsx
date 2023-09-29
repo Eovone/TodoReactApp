@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {Col, Layout, message, Row } from 'antd';
 import TodosForm from './TodosForm';
 import { deleteTodo, getTodos, postTodo, updateTodo } from '../Services/TodoService';
@@ -11,7 +11,25 @@ const { Content } = Layout;
 
 const TodoList: FC = () => {  
     const [filterString, setFilterString] = useState<string>("all");
-    const { data: allTodos, isLoading, isError, refetch } = useQuery(['todos'], () => getTodos());
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [disableNextPageButton, setDisableNextPageButton] = useState<boolean>(false);
+
+    const { data: allTodos, isLoading, isError, isPreviousData, refetch } = 
+    useQuery(['todos', pageNumber, filterString], () => getTodos(pageNumber, 3, filterString),
+    {
+        onSuccess: (data) => {
+            if (data.length < 3){
+                setDisableNextPageButton(true);
+            }
+            else {
+                setDisableNextPageButton(false);
+            }
+        }
+    });  
+
+    useEffect(() => {
+      setPageNumber(1);
+    }, [filterString]);    
    
     const addTodo = useMutation((todo: Todo) => postTodo(todo), {
         onSuccess: () => {
@@ -43,17 +61,23 @@ const TodoList: FC = () => {
 
     const handleUpdateTodo = async (todo: Todo) => {
         await editTodo.mutateAsync(todo);
-    }
-
+    };
     const handleDeleteTodo = async (todo: Todo) => {
         if (todo.id == null) return;
         await removeTodo.mutateAsync(todo.id);
-    }
+    };
     const handleFormSubmit = async (todo: Todo) => {
         await addTodo.mutateAsync(todo);
     };
 
-if (isLoading){    
+    const handleNegativePageClick = () => {        
+        setPageNumber((prevPageNumber) => prevPageNumber - 1);         
+    }
+    const handlePositivePageClick = () => {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+    }    
+
+if (isLoading || isPreviousData){    
     return (
         <Layout className="layout bg-gray-700 flex flex-col justify-center items-center h-screen">
             <p className="text-white text-5xl mb-4">Loading...</p>
@@ -86,21 +110,30 @@ return(
                                setFilterState={setFilterString}/>
                    
                     <Row className='mb-4 flex justify-center'>
-                        {filterString === 'all' ? (
-                            <TodoItems listOfTodos={allTodos} 
-                                    handleDelete={handleDeleteTodo}
-                                    handleUpdate={handleUpdateTodo}/>
-                        ) : null }
-                        {filterString === 'done' ? (
-                            <TodoItems listOfTodos={allTodos.filter((todo : Todo) => todo.completed)} 
-                                    handleDelete={handleDeleteTodo}
-                                    handleUpdate={handleUpdateTodo}/>
-                        ) : null }
-                        {filterString === 'notdone' ? (
-                            <TodoItems listOfTodos={allTodos.filter((todo : Todo) => !todo.completed)} 
-                                    handleDelete={handleDeleteTodo}
-                                    handleUpdate={handleUpdateTodo}/>
-                        ) : null }                            
+                        <TodoItems listOfTodos={allTodos} 
+                                handleDelete={handleDeleteTodo}
+                                handleUpdate={handleUpdateTodo}/>                     
+                    </Row>
+
+                    <Row className='flex justify-center'>
+                        <div className='w-3/5 space-x-4'>
+
+                            <button onClick={() => setPageNumber(pageNumber -1)}
+                                    disabled={pageNumber == 1}
+                                    hidden={pageNumber == 1}
+                                    className='w-1/5 px-4 py-2 text-white bg-gray-500 transition-transform transform hover:scale-105 focus:outline-none rounded-md'
+                                    >{pageNumber-1}</button>
+
+                            <button className='border-2 border-yellow-400 w-1/5 px-4 py-2 text-white bg-gray-500 transition-transform transform hover:scale-105 focus:outline-none rounded-md '
+                                    disabled={true}
+                                    >{pageNumber}</button>
+
+                            <button onClick={() => setPageNumber(pageNumber +1)}
+                                    className='w-1/5 px-4 py-2 text-white bg-gray-500 transition-transform transform hover:scale-105 focus:outline-none rounded-md'
+                                    disabled={disableNextPageButton}
+                                    >{pageNumber+1}</button>
+
+                        </div>                        
                     </Row>
                 </div>
             </Content>

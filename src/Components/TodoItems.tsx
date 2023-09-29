@@ -17,8 +17,8 @@ if(props.listOfTodos.length === 0){
 return (
   <div className="w-3/5 sm:w-1/2 md:w-3/8 lg:w-1/4">
     <div className='w-full'>
-      {props.listOfTodos.map((todo, index) => (
-        <div className='w-full'  key={index}>
+      {props.listOfTodos.map((todo) => (
+        <div className='w-full' key={todo.id}>
             <div className="h-60 bg-gray-800 rounded shadow-md p-2 m-4 text-gray-500">
               <TodoItem todoItem={todo} 
                         handleDelete={props.handleDelete}
