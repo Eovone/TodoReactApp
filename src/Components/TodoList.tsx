@@ -10,26 +10,26 @@ import FilterBar from './FilterBar';
 const { Content } = Layout;
 
 const TodoList: FC = () => {  
-    const [filterString, setFilterString] = useState<string>("all");
+    const [filter, setFilter] = useState<string>("all");
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [disableNextPageButton, setDisableNextPageButton] = useState<boolean>(false);
+    const [disableNextPage, setDisableNextPage] = useState<boolean>(false);
 
     const { data: allTodos, isLoading, isError, isPreviousData, refetch } = 
-    useQuery(['todos', pageNumber, filterString], () => getTodos(pageNumber, 3, filterString),
+    useQuery(['todos', pageNumber, filter], () => getTodos(pageNumber, 3, filter),
     {
         onSuccess: (data) => {
             if (data.length < 3){
-                setDisableNextPageButton(true);
+                setDisableNextPage(true);
             }
             else {
-                setDisableNextPageButton(false);
+                setDisableNextPage(false);
             }
         }
     });  
 
     useEffect(() => {
       setPageNumber(1);
-    }, [filterString]);    
+    }, [filter]);    
    
     const addTodo = useMutation((todo: Todo) => postTodo(todo), {
         onSuccess: () => {
@@ -66,16 +66,9 @@ const TodoList: FC = () => {
         if (todo.id == null) return;
         await removeTodo.mutateAsync(todo.id);
     };
-    const handleFormSubmit = async (todo: Todo) => {
+    const handleAddTodo = async (todo: Todo) => {
         await addTodo.mutateAsync(todo);
     };
-
-    const handleNegativePageClick = () => {        
-        setPageNumber((prevPageNumber) => prevPageNumber - 1);         
-    }
-    const handlePositivePageClick = () => {
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
-    }    
 
 if (isLoading || isPreviousData){    
     return (
@@ -102,17 +95,17 @@ return(
                 <div className='todolist'>
                     <Row className='mb-4'>
                         <Col className="md:col-span-12 lg:col-span-8 xl:col-span-6 mx-auto">
-                            <TodosForm onFormSubmit={handleFormSubmit} />
+                            <TodosForm onFormSubmit={handleAddTodo} />
                         </Col>
                     </Row>  
 
-                    <FilterBar filterState={filterString} 
-                               setFilterState={setFilterString}/>
+                    <FilterBar filterState={filter} 
+                               setFilterState={setFilter}/>
                    
                     <Row className='mb-4 flex justify-center'>
                         <TodoItems listOfTodos={allTodos} 
-                                handleDelete={handleDeleteTodo}
-                                handleUpdate={handleUpdateTodo}/>                     
+                                   handleDelete={handleDeleteTodo}
+                                   handleUpdate={handleUpdateTodo}/>                     
                     </Row>
 
                     <Row className='flex justify-center'>
@@ -130,7 +123,7 @@ return(
 
                             <button onClick={() => setPageNumber(pageNumber +1)}
                                     className='w-1/5 px-4 py-2 text-white bg-gray-500 transition-transform transform hover:scale-105 focus:outline-none rounded-md'
-                                    disabled={disableNextPageButton}
+                                    disabled={disableNextPage}
                                     >{pageNumber+1}</button>
 
                         </div>                        

@@ -19,7 +19,7 @@ return (
     <div className='w-full'>
       {props.listOfTodos.map((todo) => (
         <div className='w-full' key={todo.id}>
-            <div className="h-60 bg-gray-800 rounded shadow-md p-2 m-4 text-gray-500">
+            <div className="h-72 bg-gray-800 rounded shadow-md p-2 m-4 text-gray-500">
               <TodoItem todoItem={todo} 
                         handleDelete={props.handleDelete}
                         handleUpdate={props.handleUpdate}/>

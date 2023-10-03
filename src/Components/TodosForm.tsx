@@ -1,6 +1,7 @@
-import { Button, Col, Form, Input, Row, Switch } from 'antd';
+import { Button, Col, Form, Input, Row, Switch, DatePicker } from 'antd';
 import { FC, useState } from 'react';
 import { Todo } from '../Models/Todo';
+
 
 interface TodosFormProps{
     onFormSubmit: (todo: Todo) => void;
@@ -9,21 +10,39 @@ interface TodosFormProps{
 const TodosForm: FC<TodosFormProps> = (props) => {
     const [form] = Form.useForm();
     const [completed, setCompleted] = useState<boolean>(false);
+    const [deadline, setDeadline] = useState<string>('');
 
-    const onFinish = () => {
+    const handleSubmit = () => {
         const todo: Todo = {
             title: form.getFieldValue('title'),            
             completed: completed,
             description: form.getFieldValue('description'),
+            deadline: deadline,
         };             
         props.onFormSubmit(todo);
-        form.resetFields();        
-    }    
+        form.resetFields();      
+    }  
+
+    const onDatePickerOk = (value: any) => {
+        const date = new Date(value);
+        let formattedDate = convertToDateTime(date);
+        setDeadline(formattedDate);
+    };
+
+    const convertToDateTime = (date: Date) => {
+        const formattedDate = `${date.getFullYear()}-${
+                                (date.getMonth() + 1).toString().padStart(2, '0')}-${
+                                 date.getDate().toString().padStart(2, '0')}T${
+                                 date.getHours().toString().padStart(2, '0')}:${
+                                 date.getMinutes().toString().padStart(2, '0')}:${
+                                 date.getSeconds().toString().padStart(2, '0')}`;
+        return formattedDate;
+    }
 
     return(
         <div className="bg-gray-500 p-4 rounded shadow-lg text-white">
             <Form form={form}
-                  onFinish={onFinish}
+                  onFinish={handleSubmit}
                   layout="vertical"
                   className="todo-form">
                 <Row gutter={20}>
@@ -37,11 +56,22 @@ const TodosForm: FC<TodosFormProps> = (props) => {
                     </Col>
   
                     <Col className='w-full'>
+
                         <Form.Item name="description"
                                    rules={[{ required: true, message: 'Please Enter what you need to do' }]}>
                         <Input placeholder="What do you need to do?"
                                className="text-gray-500" />
                         </Form.Item>
+                        
+                        <p className='text-white mb-1'>Deadline</p>
+                        <Form.Item rules={[{ required: true, message: 'Please Enter the Deadline' }]}>
+                            <DatePicker name='deadline'
+                                        showTime
+                                        format="YYYY-MM-DD HH:mm"
+                                        onOk={onDatePickerOk}                                      
+                                        />
+                        </Form.Item>
+
                         <p className="text-white">Is this Todo already done?</p>
                         <Form.Item name="completed"
                                    valuePropName="checked">
