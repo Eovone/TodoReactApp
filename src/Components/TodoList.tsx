@@ -6,6 +6,8 @@ import { Todo } from '../Models/Todo';
 import TodoItems from './TodoItems';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import FilterBar from './FilterBar';
+import { DeleteOutlined } from '@ant-design/icons';
+import '../Styles/MessageCustom.scss';
 
 const { Content } = Layout;
 
@@ -13,6 +15,8 @@ const TodoList: FC = () => {
     const [filter, setFilter] = useState<string>("all");
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [disableNextPage, setDisableNextPage] = useState<boolean>(false);
+
+    const durationTimeMessage = 3;
 
     const { data: allTodos, isLoading, isError, isPreviousData, refetch } = 
     useQuery(['todos', pageNumber, filter], () => getTodos(pageNumber, 3, filter),
@@ -34,28 +38,35 @@ const TodoList: FC = () => {
     const addTodo = useMutation((todo: Todo) => postTodo(todo), {
         onSuccess: () => {
           refetch();
-          message.success('Your Todo has been added!');
+          message.success('Your Todo has been added!', durationTimeMessage);
         },
         onError: () => {
-            message.error('Your Todo Failed to be added!')
+            message.error('Your Todo Failed to be added!', durationTimeMessage);
         }
-      });    
+      });
+
     const removeTodo = useMutation((todoId: number) => deleteTodo(todoId),{
         onSuccess: () => {
             refetch();
-            message.success('Your Todo has been removed!');
+            message.success({
+                content: 'Your Todo has been removed!',
+                duration: durationTimeMessage,
+                className: 'red-success-icon',
+                icon: <DeleteOutlined />,
+              })
         },
         onError: () => {
-            message.error('Your Todo Failed to be removed!')
+            message.error('Your Todo Failed to be removed!', durationTimeMessage);
         }
       });
+
     const editTodo = useMutation((todo: Todo) => updateTodo(todo), {
         onSuccess: () => {
             refetch();
-            message.success('Your Todo has been updated!');
+            message.success('Your Todo has been updated!', durationTimeMessage);
         },
         onError: () => {
-            message.error('Your Todo Failed to be updated!')
+            message.error('Your Todo Failed to be updated!', durationTimeMessage);
         }
     });
 
