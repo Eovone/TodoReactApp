@@ -1,7 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { Todo } from '../Models/Todo';
 import { DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
-import { calculateRemainingTime } from '../Services/TodoService';
+import { calculateRemainingTime, convertToDateTime } from '../Services/TodoService';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
+import '../Styles/DatePickerCustom.scss';
 
 interface TodoItemProps {
     todoItem: Todo;
@@ -39,7 +42,13 @@ const TodoItem: FC<TodoItemProps> = (props) => {
     }
     props.handleUpdate(editedTodo);
     setIsEditing(false);
-  }   
+  }  
+  
+  const onDatePickerOk = (value: any) => {
+    const date = new Date(value);
+    let formattedDate = convertToDateTime(date);
+    setEditedDeadline(formattedDate);
+};
 
   useEffect(() => {
     const dateNow = new Date();
@@ -101,12 +110,13 @@ const TodoItem: FC<TodoItemProps> = (props) => {
          {isEditing ? (
           <div>
             <span className='text-black'>Deadline: </span>
-            <input type="text" 
-                   placeholder='YYYY-MM-DDTHH-MM-SS'
-                   className='border-2 border-gray-700 text-center text-black'
-                   value={editedDeadline}
-                   onChange={(e) => setEditedDeadline(e.target.value)}
-                   />
+            <DatePicker name='deadline'
+                        showTime
+                        format="YYYY-MM-DD HH:mm"
+                        value={dayjs(editedDeadline)}
+                        onOk={onDatePickerOk}
+                        className='ant-picker-panel'
+                        />            
           </div>
             ) : (
               (remainingSeconds < 0) ? (

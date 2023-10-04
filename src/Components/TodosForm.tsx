@@ -1,6 +1,8 @@
 import { Button, Col, Form, Input, Row, Switch, DatePicker } from 'antd';
 import { FC, useState } from 'react';
 import { Todo } from '../Models/Todo';
+import { convertToDateTime } from '../Services/TodoService';
+import '../Styles/DatePickerCustom.scss';
 
 
 interface TodosFormProps{
@@ -20,24 +22,16 @@ const TodosForm: FC<TodosFormProps> = (props) => {
             deadline: deadline,
         };             
         props.onFormSubmit(todo);
-        form.resetFields();      
+        form.resetFields();
+        form.setFieldsValue({ deadline: '' });
+        setDeadline('');      
     }  
 
     const onDatePickerOk = (value: any) => {
         const date = new Date(value);
         let formattedDate = convertToDateTime(date);
         setDeadline(formattedDate);
-    };
-
-    const convertToDateTime = (date: Date) => {
-        const formattedDate = `${date.getFullYear()}-${
-                                (date.getMonth() + 1).toString().padStart(2, '0')}-${
-                                 date.getDate().toString().padStart(2, '0')}T${
-                                 date.getHours().toString().padStart(2, '0')}:${
-                                 date.getMinutes().toString().padStart(2, '0')}:${
-                                 date.getSeconds().toString().padStart(2, '0')}`;
-        return formattedDate;
-    }
+    };    
 
     return(
         <div className="bg-gray-500 p-4 rounded shadow-lg text-white">
@@ -64,11 +58,12 @@ const TodosForm: FC<TodosFormProps> = (props) => {
                         </Form.Item>
                         
                         <p className='text-white mb-1'>Deadline</p>
-                        <Form.Item rules={[{ required: true, message: 'Please Enter the Deadline' }]}>
+                        <Form.Item name='deadline' rules={[{ required: true, message: 'Please Enter the Deadline' }]}>
                             <DatePicker name='deadline'
                                         showTime
                                         format="YYYY-MM-DD HH:mm"
-                                        onOk={onDatePickerOk}                                      
+                                        onOk={onDatePickerOk}
+                                        className='ant-picker-panel'              
                                         />
                         </Form.Item>
 
