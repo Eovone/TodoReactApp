@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { Todo } from '../Models/Todo';
-import { DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import { calculateRemainingTime, convertToDateTime } from '../Services/TodoCalculations';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -29,9 +29,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
     setIsEditing(false);
     props.handleDelete(props.todoItem);
   }
-  const handleEditClick = () => {
-    setIsEditing(true);
-  }
+
   const handleSaveClick = () => {
     const editedTodo: Todo = {
       id: props.todoItem.id,
@@ -61,19 +59,21 @@ const TodoItem: FC<TodoItemProps> = (props) => {
   
     return (
       <div className="h-full bg-white shadow-md rounded-md p-4 relative flex flex-col">
-        <div className='flex justify-between'>
-          <DeleteOutlined onClick={handleDeleteClick}
-                          className="text-red-500 cursor-pointer text-3xl"
-          />
           {isEditing ? (
+            <div className='flex justify-between'>
+            <CloseOutlined className='text-red-500 cursor-pointer text-3xl'
+                           onClick={() => setIsEditing(false)}/>
             <SaveOutlined className='text-green-500 cursor-pointer text-3xl'
                           onClick={handleSaveClick}/>
+            </div>            
           ) : (
-            <EditOutlined className='text-green-500 cursor-pointer text-3xl'
-                          onClick={handleEditClick}/>
+            <div className='flex justify-between'>
+              <DeleteOutlined className="text-red-500 cursor-pointer text-3xl"
+                              onClick={handleDeleteClick}/>
+              <EditOutlined className='text-green-500 cursor-pointer text-3xl'
+                            onClick={() => setIsEditing(true)}/>
+            </div>            
           )}
-        </div>
-         
         {isEditing ? (
           <input type='text'
                  className='w-full border-2 border-gray-700 text-black text-2xl font-semibold text-center outline-none'
