@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { Todo } from '../Models/Todo';
 import { DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
-import { calculateRemainingTime, convertToDateTime } from '../Services/TodoService';
+import { calculateRemainingTime, convertToDateTime } from '../Services/TodoCalculations';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import '../Styles/DatePickerCustom.scss';
