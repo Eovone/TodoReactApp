@@ -8,7 +8,6 @@ interface FilterButtonProps {
 }
 
 const FilterButton: FC<FilterButtonProps> = (props) => {
-
     const handleOnClick = () => {
         props.setFilterState(props.filterState);
     };
